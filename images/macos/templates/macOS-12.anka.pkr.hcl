@@ -208,23 +208,8 @@ build {
     scripts          = [
       "${path.root}/../scripts/build/configure-windows.sh",
       "${path.root}/../scripts/build/install-powershell.sh",
-      "${path.root}/../scripts/build/install-dotnet.sh",
-      "${path.root}/../scripts/build/install-python.sh",
-      "${path.root}/../scripts/build/install-azcopy.sh",
-      "${path.root}/../scripts/build/install-openssl.sh",
-      "${path.root}/../scripts/build/install-ruby.sh",
-      "${path.root}/../scripts/build/install-rubygems.sh",
-      "${path.root}/../scripts/build/install-git.sh",
-      "${path.root}/../scripts/build/install-mongodb.sh",
-      "${path.root}/../scripts/build/install-node.sh",
       "${path.root}/../scripts/build/install-common-utils.sh"
     ]
-  }
-
-  provisioner "shell" {
-    environment_vars = ["XCODE_INSTALL_STORAGE_URL=${var.xcode_install_storage_url}", "XCODE_INSTALL_SAS=${var.xcode_install_sas}", "IMAGE_FOLDER=${local.image_folder}"]
-    execute_command  = "chmod +x {{ .Path }}; source $HOME/.bash_profile; {{ .Vars }} pwsh -f {{ .Path }}"
-    script           = "${path.root}/../scripts/build/Install-Xcode.ps1"
   }
 
   provisioner "shell" {
@@ -234,66 +219,10 @@ build {
   }
 
   provisioner "shell" {
-    environment_vars = ["API_PAT=${var.github_api_pat}", "IMAGE_FOLDER=${local.image_folder}"]
-    execute_command  = "chmod +x {{ .Path }}; source $HOME/.bash_profile; {{ .Vars }} {{ .Path }}"
-    scripts          = [
-      "${path.root}/../scripts/build/install-actions-cache.sh",
-      "${path.root}/../scripts/build/install-llvm.sh",
-      "${path.root}/../scripts/build/install-golang.sh",
-      "${path.root}/../scripts/build/install-swiftlint.sh",
-      "${path.root}/../scripts/build/install-openjdk.sh",
-      "${path.root}/../scripts/build/install-php.sh",
-      "${path.root}/../scripts/build/install-aws-tools.sh",
-      "${path.root}/../scripts/build/install-rust.sh",
-      "${path.root}/../scripts/build/install-gcc.sh",
-      "${path.root}/../scripts/build/install-haskell.sh",
-      "${path.root}/../scripts/build/install-cocoapods.sh",
-      "${path.root}/../scripts/build/install-android-sdk.sh",
-      "${path.root}/../scripts/build/install-xamarin.sh",
-      "${path.root}/../scripts/build/install-visualstudio.sh",
-      "${path.root}/../scripts/build/install-nvm.sh",
-      "${path.root}/../scripts/build/install-apache.sh",
-      "${path.root}/../scripts/build/install-nginx.sh",
-      "${path.root}/../scripts/build/install-postgresql.sh",
-      "${path.root}/../scripts/build/install-audiodevice.sh",
-      "${path.root}/../scripts/build/install-vcpkg.sh",
-      "${path.root}/../scripts/build/install-miniconda.sh",
-      "${path.root}/../scripts/build/install-safari.sh",
-      "${path.root}/../scripts/build/install-chrome.sh",
-      "${path.root}/../scripts/build/install-edge.sh",
-      "${path.root}/../scripts/build/install-firefox.sh",
-      "${path.root}/../scripts/build/install-pypy.sh",
-      "${path.root}/../scripts/build/install-pipx-packages.sh",
-      "${path.root}/../scripts/build/install-bicep.sh",
-      "${path.root}/../scripts/build/install-codeql-bundle.sh"
-    ]
-  }
-
-  provisioner "shell" {
-    environment_vars = ["IMAGE_FOLDER=${local.image_folder}"]
-    execute_command  = "chmod +x {{ .Path }}; source $HOME/.bash_profile; {{ .Vars }} pwsh -f {{ .Path }}"
-    scripts          = [
-      "${path.root}/../scripts/build/Install-Toolset.ps1",
-      "${path.root}/../scripts/build/Configure-Toolset.ps1"
-    ]
-  }
-
-  provisioner "shell" {
-    execute_command = "source $HOME/.bash_profile; ruby {{ .Path }}"
-    script          = "${path.root}/../scripts/build/configure-xcode-simulators.rb"
-  }
-
-  provisioner "shell" {
-    execute_command = "chmod +x {{ .Path }}; {{ .Vars }} pwsh -f {{ .Path }}"
-    script          = "${path.root}/../scripts/build/Update-XcodeSimulators.ps1"
-  }
-
-  provisioner "shell" {
-    environment_vars = ["IMAGE_FOLDER=${local.image_folder}"]
-    execute_command  = "source $HOME/.bash_profile; {{ .Vars }} {{ .Path }}"
+    execute_command = "sudo sh -c '{{ .Vars }} {{ .Path }}'"
     inline           = [
-      "pwsh -File \"${local.image_folder}/software-report/Generate-SoftwareReport.ps1\" -OutputDirectory \"${local.image_folder}/output/software-report\" -ImageName ${var.build_id}",
-      "pwsh -File \"${local.image_folder}/tests/RunAll-Tests.ps1\""
+      "echo -e {} > ${local.image_folder}/output/software-report/systeminfo.json",
+      "echo -e  > ${local.image_folder}/output/software-report/systeminfo.md"
     ]
   }
 
