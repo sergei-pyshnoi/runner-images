@@ -221,6 +221,8 @@ build {
   provisioner "shell" {
     execute_command = "sudo sh -c '{{ .Vars }} {{ .Path }}'"
     inline           = [
+      "touch ${local.image_folder}/output/software-report/systeminfo.json",
+      "touch ${local.image_folder}/output/software-report/systeminfo.md",
       "echo -e {} > ${local.image_folder}/output/software-report/systeminfo.json",
       "echo -e  > ${local.image_folder}/output/software-report/systeminfo.md"
     ]

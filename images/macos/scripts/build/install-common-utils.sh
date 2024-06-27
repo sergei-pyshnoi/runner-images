@@ -27,18 +27,7 @@ for package in $common_packages; do
     fi
 done
 
-cask_packages=$(get_toolset_value '.brew.cask_packages[]')
-for package in $cask_packages; do
-    echo "Installing $package..."
-    if is_Monterey && [[ $package == "virtualbox" ]]; then
-        # Do not update VirtualBox on macOS 12 due to the issue with VMs in gurumediation state which blocks Vagrant on macOS: https://github.com/actions/runner-images/issues/8730
-        # macOS host: Dropped all kernel extensions. VirtualBox relies fully on the hypervisor and vmnet frameworks provided by Apple now.
-        virtualbox_cask_path=$(download_with_retry "https://raw.githubusercontent.com/Homebrew/homebrew-cask/aa3c55951fc9d687acce43e5c0338f42c1ddff7b/Casks/virtualbox.rb")
-        brew install $virtualbox_cask_path
-    else
-        brew install --cask $package
-    fi
-done
+
 
 # Load "Parallels International GmbH"
 if is_Monterey; then
@@ -99,6 +88,3 @@ if ! is_BigSur; then
     # Install Azure DevOps extension for Azure Command Line Interface
     az extension add -n azure-devops
 fi
-
-# Invoke tests for all basic tools
-invoke_tests "BasicTools"

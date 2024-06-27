@@ -184,44 +184,7 @@
     },
     "brew": {
         "common_packages": [
-            "ant",
-            "aria2",
-            "azure-cli",
-            "bazelisk",
-            "carthage",
-            "cmake",
-            "colima",
-            "gh",
-            "gnupg",
-            "gnu-tar",
-            "kotlin",
-            "libpq",
-            "p7zip",
-            "packer",
-            "perl",
-            "pkg-config",
-            "sbt",
-            "subversion",
-            "swiftformat",
-            "swig",
-            "zstd",
-            "gmp",
-            "zlib",
-            "libxext",
-            "libxft",
-            "tcl-tk",
-            "r",
-            "yq",
-            "imagemagick",
-            "unxip",
-            "xcbeautify",
-            "xcodes"
-        ],
-        "cask_packages": [
-            "julia",
-            "vagrant",
-            "virtualbox",
-            "parallels"
+            "wget"
         ]
     },
     "gcc": {
